@@ -54,10 +54,10 @@ management:
     shutdown:
       enabled: true
 
-  safeandfast:
-    app:
-      jwtSecret: safeAndFast@!23
-      jwtExpirationMS:86400000:
+safeandfast:
+  app:
+    jwtSecret: safeAndFast@!23
+    jwtExpirationMS: 86400000
 
 
 info:
