@@ -7,7 +7,7 @@ public class ErrorMessage {
 
     public  final static String  User_Not_Found_Message = "User with email %s not found";
 
-    public  final static String  Role_Not_Found_Message = "Role :  %s not found";
+    public  final static String  ROLE_NOT_FOUND_MESSAGE = "Role :  %s not found";
 
     public  final static String  Email_Already_Exist_Message= "Email : email %s already exists";
 }

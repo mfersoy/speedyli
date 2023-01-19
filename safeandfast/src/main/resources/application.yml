@@ -12,10 +12,15 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/visionrent_db
-    username: visionrent_user
+    url: jdbc:postgresql://localhost:5432/safeandfast_db
+    username: safeandfast_user
     password: password
     driver-class-name: org.postgresql.Driver
+
+  #main:
+   #allow-circular-references: true
+
+
 
   jpa:
     hibernate:
@@ -57,7 +62,7 @@ management:
 safeandfast:
   app:
     jwtSecret: safeAndFast@!23
-    jwtExpirationMS: 86400000
+    jwtExpirationMs: 86400000
 
 
 info:

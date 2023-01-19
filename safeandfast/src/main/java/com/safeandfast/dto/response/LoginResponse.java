@@ -9,8 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SFResponse {
-	
-	private String message; 
-    boolean success;
+public class LoginResponse {
+
+    private String token;
 }

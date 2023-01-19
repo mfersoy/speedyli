@@ -15,7 +15,7 @@ import javax.persistence.*;
 
 @Table(name = "t_role")
 @Entity
-public class Role extends BaseEntity {
+public class Role extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

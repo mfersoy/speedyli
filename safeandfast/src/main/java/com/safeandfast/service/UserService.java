@@ -8,7 +8,7 @@ import com.safeandfast.exception.ConflictException;
 import com.safeandfast.exception.ResourceNotFoundException;
 import com.safeandfast.exception.message.ErrorMessage;
 import com.safeandfast.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,14 +19,20 @@ import java.util.Set;
 @Service
 public class UserService {
 
-    @Autowired
+
     private UserRepository userRepository;
 
-    @Autowired
+
     private RoleService roleService;
 
-    @Autowired
+
     private PasswordEncoder passwordEncoder;
+
+    public UserService(UserRepository userRepository, RoleService roleService, @Lazy PasswordEncoder passwordEncoder){
+        this.passwordEncoder=passwordEncoder;
+        this.userRepository=userRepository;
+        this.roleService=roleService;
+    }
 
     public void saveUser(RegisterRequest registerRequest){
         if (userRepository.existsByEmail(registerRequest.getEmail())){
@@ -37,8 +43,20 @@ public class UserService {
         Set<Role> roles = new HashSet<>();
         roles.add(role);
 
+       String encodedPassword = passwordEncoder.encode(registerRequest.getPassword());
+
         User user = new User();
         user.setFirstName(registerRequest.getFirstName());
+        user.setLastName(registerRequest.getLastName());
+        user.setEmail(registerRequest.getEmail());
+        user.setPassword(encodedPassword);
+        user.setPhoneNumber(registerRequest.getPhoneNumber());
+        user.setAddress(registerRequest.getAddress());
+        user.setZipCode(registerRequest.getZipCode());
+        user.setRoles(roles);
+
+        userRepository.save(user);
+
         //TODO: we will set other variables for user.
     }
 
