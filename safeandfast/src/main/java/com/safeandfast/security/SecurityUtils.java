@@ -1,4 +1,4 @@
-package com.safeandfast.security.service;
+package com.safeandfast.security;
 
 import java.util.Optional;
 

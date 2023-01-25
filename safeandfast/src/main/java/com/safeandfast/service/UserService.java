@@ -3,17 +3,21 @@ package com.safeandfast.service;
 import com.safeandfast.domain.Role;
 import com.safeandfast.domain.User;
 import com.safeandfast.domain.enums.RoleType;
+import com.safeandfast.dto.UserDTO;
 import com.safeandfast.dto.request.RegisterRequest;
 import com.safeandfast.exception.ConflictException;
 import com.safeandfast.exception.ResourceNotFoundException;
 import com.safeandfast.exception.message.ErrorMessage;
+import com.safeandfast.mapper.UserMapper;
 import com.safeandfast.repository.UserRepository;
+import com.safeandfast.security.SecurityUtils;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -28,10 +32,13 @@ public class UserService {
 
     private PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, RoleService roleService, @Lazy PasswordEncoder passwordEncoder){
+    private UserMapper userMapper;
+
+    public UserService(UserRepository userRepository, RoleService roleService, @Lazy PasswordEncoder passwordEncoder, UserMapper userMapper){
         this.passwordEncoder=passwordEncoder;
         this.userRepository=userRepository;
         this.roleService=roleService;
+        this.userMapper=userMapper;
     }
 
     public void saveUser(RegisterRequest registerRequest){
@@ -64,4 +71,29 @@ public class UserService {
         User user= userRepository.findByEmail(email).orElseThrow(()-> new ResourceNotFoundException(String.format(ErrorMessage.User_Not_Found_Message,email)));
         return user;
     }
+
+    public List<UserDTO> getAllUsers(){
+        List<User> users = userRepository.findAll();
+        List<UserDTO> userDTOs = userMapper.map(users);
+        return userDTOs;
+    }
+
+    public UserDTO getPrincipal() {
+        User currentUser= getCurrentUser();
+        UserDTO userDTO= userMapper.userToUserDTO(currentUser);
+        return userDTO;
+    }
+
+    public User getCurrentUser() {
+        String email= SecurityUtils.getCurrentUserLogin().orElseThrow(()->new ResourceNotFoundException(ErrorMessage.PRINCIPAL_FOUND_MESSAGE));
+        User user=getUserByEmail(email);
+        return user;
+    }
+
+    public UserDTO getUserById(Long id) {
+        User user=userRepository.findById(id).orElseThrow(()->new
+                ResourceNotFoundException(String.format(ErrorMessage.RESOURCE_NOT_FOUND_MESSAGE, id)));
+        return userMapper.userToUserDTO(user);
+    }
+
 }
