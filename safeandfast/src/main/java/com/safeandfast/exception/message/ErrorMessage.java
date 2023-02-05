@@ -13,7 +13,10 @@ public class ErrorMessage {
 
     public  final static String  Email_Already_Exist_Message= "Email : email %s already exists";
 
-    public final static String RESOURCE_NOT_FOUND_MESSAGE = "Id %s bulunamadı ";
+    public  final static String  NOT_PERMITTED_METHOD_MESSAGE= "You don't have any permission to change this data";
+
+    public  final static String  PASSWORD_NOT_MATCH= "Your passwords are not matched";
+
 
 
 

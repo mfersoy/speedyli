@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,6 +29,10 @@ public class UserDTO {
     private String email;
 
 
+
+    private String password;
+
+
     private String phoneNumber;
 
 
@@ -45,7 +49,6 @@ public class UserDTO {
 
     public void setRoles(Set<Role> roles) {
         Set<String> roleStr=new HashSet<>();
-
         roles.forEach(r->{
             roleStr.add(r.getType().getName());
         });

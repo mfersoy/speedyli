@@ -4,6 +4,7 @@ import com.safeandfast.security.jwt.AuthTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -27,9 +28,10 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http.csrf().disable().//disable etmezseniz POST Yapamazsınız
-                sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().
+                sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/**").permitAll().and().
                 authorizeRequests().
-                antMatchers("/", "index.html", "/css/*", "/js/*", "/images/*", "/register", "/login").permitAll().
+                antMatchers("/register", "/login", "/files/download/**", "/files/display/**"
+                        , "/contactmessage/visitors", "/car/visitors/**", "/actuator/info", "/actuator/health").permitAll().
                 anyRequest().authenticated();
 
         http.addFilterBefore(authTokenFilter(), UsernamePasswordAuthenticationFilter.class);

@@ -43,7 +43,16 @@ public class SafeFastExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> ConflictExceptionFoundException(ConflictException ex,
                                                                     WebRequest request) {
 
-        ApiResponseError error= new ApiResponseError(HttpStatus.NOT_FOUND, ex.getMessage(),request.getDescription(false));
+        ApiResponseError error= new ApiResponseError(HttpStatus.CONFLICT, ex.getMessage(),request.getDescription(false));
+        return buildResponseEntity(error);
+
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    protected ResponseEntity<Object> handleBadRequestException(BadRequestException ex,
+                                                                     WebRequest request) {
+
+        ApiResponseError error= new ApiResponseError(HttpStatus.BAD_REQUEST, ex.getMessage(),request.getDescription(false));
         return buildResponseEntity(error);
 
     }
