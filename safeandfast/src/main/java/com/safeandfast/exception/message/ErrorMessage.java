@@ -17,6 +17,8 @@ public class ErrorMessage {
 
     public  final static String  PASSWORD_NOT_MATCH= "Your passwords are not matched";
 
+    public  final static String  IMAGE_NOT_FOUND_MESSAGE = "Image : with id  %s not found";
+
 
 
 
