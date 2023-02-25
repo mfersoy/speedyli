@@ -28,10 +28,8 @@ public class ImageFileController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ImageSaveResponse> uploadFile(@RequestParam("file") MultipartFile file){
 
-        String imageId= imageFileService.saveImage(file);
-
-        ImageSaveResponse response = new ImageSaveResponse(imageId, ResponseMessage.IMAGE_SAVED_RESPONSE_MESSAGE,true);
-
+        String imageId = imageFileService.saveImage(file);
+        ImageSaveResponse response = new ImageSaveResponse(imageId, ResponseMessage.IMAGE_SAVED_RESPONSE_MESSAGE, true);
         return ResponseEntity.ok(response);
     }
 
