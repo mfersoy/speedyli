@@ -31,10 +31,10 @@ public class ImageFile extends BaseEntity {
     private ImageData imageData;
 
     public ImageFile(String name, String type, ImageData imageData){
-        this.name=name;
-        this.type=type;
-        this.length=imageData.getData().length;
-        this.imageData=imageData;
+        this.name = name;
+        this.type = type;
+        this.imageData = imageData;
+        this.length = imageData.getData().length;
     }
 
 

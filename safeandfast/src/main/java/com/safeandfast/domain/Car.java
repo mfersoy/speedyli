@@ -19,13 +19,13 @@ public class Car extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
 
     @Column(length = 30, nullable = false)
     private String model;
 
     @Column(nullable = false)
-    private Integer door;
+    private Integer doors;
 
     @Column(nullable = false)
     private Integer seats;
@@ -37,7 +37,7 @@ public class Car extends BaseEntity{
     private String transmission;
 
     @Column(nullable = false)
-    private Boolean airCondition;
+    private Boolean airConditioning;
 
     @Column(nullable = false)
     private Integer age;
@@ -48,7 +48,7 @@ public class Car extends BaseEntity{
     @Column(length = 30, nullable = false)
     private String fuelType;
 
-    private Boolean builtIn= false;
+    private Boolean builtIn = false;
 
     @OneToMany(orphanRemoval = true)
     @JoinColumn(name = "car_id")

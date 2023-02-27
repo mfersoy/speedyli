@@ -1,12 +1,14 @@
 package com.safeandfast.dto.request;
 
-import com.safeandfast.domain.Role;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Getter
@@ -23,20 +25,21 @@ public class UserUpdateRequest {
     @NotBlank(message = "Please provide your Last name")
     private String lastName;
 
-    @Size(min= 5, max = 80)
-    @NotBlank(message = "Please provide your email")
+    @Email(message = "Please provide valid email")
+    @Size(min = 5, max = 80)
     private String email;
 
+    @Pattern(regexp = "^((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$", message = "Please provide valid phone number")
     @Size(min = 14, max = 14)
-    @NotBlank(message = "Please provide your adress")
+    @NotBlank(message = "Please provide your phone number")
     private String phoneNumber;
 
     @Size(max = 100)
-    @NotBlank(message = "Please provide your adress")
+    @NotBlank(message = "Please provide your address")
     private String address;
 
     @Size(max = 15)
-    @NotBlank(message = "Please provide your zipCode")
+    @NotBlank(message = "Please provide your address")
     private String zipCode;
 
 

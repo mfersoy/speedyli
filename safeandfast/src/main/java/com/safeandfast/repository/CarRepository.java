@@ -18,6 +18,7 @@ public interface CarRepository extends JpaRepository<Car, Long> {
     @Query("Select count(*) from Car c join c.image im where im.id=:id")
     Integer findCarCountByImageId(@Param("id") String id);
 
+
     @Query("Select c from Car c join c.image im where im.id=:id")
     List<Car> findCarsByImageId(@Param("id") String id);
 

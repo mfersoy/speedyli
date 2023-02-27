@@ -3,12 +3,12 @@ package com.safeandfast.service;
 import com.safeandfast.domain.Car;
 import com.safeandfast.domain.ImageFile;
 import com.safeandfast.dto.CarDTO;
+import com.safeandfast.exception.BadRequestException;
 import com.safeandfast.exception.ConflictException;
 import com.safeandfast.exception.ResourceNotFoundException;
 import com.safeandfast.exception.message.ErrorMessage;
 import com.safeandfast.mapper.CarMapper;
 import com.safeandfast.repository.CarRepository;
-import com.safeandfast.repository.ImageFileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,7 +36,7 @@ public class CarService {
     public void saveCar(String imageId, CarDTO carDTO){
         ImageFile imageFile = imageFileService.findImageById(imageId);
 
-        Integer usedCarCount = carRepository.findCarCountByImageId(imageFile.getId());
+        Integer usedCarCount = carRepository.findCarsByImageId(imageFile.getId()).size();
 
         if (usedCarCount > 0) {
             throw new ConflictException(ErrorMessage.IMAGE_USED_MESSAGE);
@@ -78,6 +78,59 @@ public class CarService {
         Car car = carRepository.findCarById(id).orElseThrow(() -> new
                 ResourceNotFoundException(String.format(ErrorMessage.Resoruce_Not_Found_Message, id)));
         return car;
+    }
+
+    public void updateCar(Long id, String imageId, CarDTO carDTO) {
+        Car car = getCar(id);
+
+        if (car.getBuiltIn()) {
+            throw new BadRequestException(ErrorMessage.NOT_PERMITTED_METHOD_MESSAGE);
+        }
+
+        ImageFile imageFile = imageFileService.findImageById(imageId);
+        List<Car> carList = carRepository.findCarsByImageId(imageFile.getId());
+
+        for (Car c : carList) {
+            if (car.getId() != c.getId()) {
+                throw new ConflictException(ErrorMessage.IMAGE_USED_MESSAGE);
+            }
+        }
+
+        car.setAge(carDTO.getAge());
+        car.setAirConditioning(carDTO.getAirConditioning());
+        car.setBuiltIn(carDTO.getBuiltIn());
+        car.setDoors(carDTO.getDoors());
+        car.setFuelType(carDTO.getFuelType());
+        car.setLuggage(carDTO.getLuggage());
+        car.setModel(carDTO.getModel());
+        car.setPricePerHour(carDTO.getPricePerHour());
+        car.setSeats(carDTO.getSeats());
+        car.setTransmission(carDTO.getTransmission());
+
+        car.getImage().add(imageFile);
+
+        carRepository.save(car);
+    }
+
+    public void removeById(Long id) {
+        Car car = getCarById(id);
+
+        if (car.getBuiltIn()) {
+            throw new BadRequestException(ErrorMessage.NOT_PERMITTED_METHOD_MESSAGE);
+        }
+
+        carRepository.delete(car);
+    }
+
+    public Car getCarById(Long id) {
+        Car car = carRepository.findById(id).orElseThrow(() -> new
+                ResourceNotFoundException(String.format(ErrorMessage.Resoruce_Not_Found_Message, id)));
+        return car;
+    }
+
+    public List<Car> getAllCar() {
+
+        return carRepository.getAllBy();
     }
 
 }

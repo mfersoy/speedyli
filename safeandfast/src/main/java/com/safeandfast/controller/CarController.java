@@ -54,6 +54,23 @@ public class CarController {
         return ResponseEntity.ok(carDTO);
     }
 
+    @PutMapping("/admin/auth")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<SFResponse> updateCar(@RequestParam("id") Long id, @RequestParam("imageId") String imageId,
+                                                @Valid @RequestBody CarDTO carDTO) {
+        carService.updateCar(id, imageId, carDTO);
+        SFResponse response = new SFResponse(ResponseMessage.CAR_UPDATE_RESPONSE_MESSAGE, true);
+        return ResponseEntity.ok(response);
+    }
+
+    //http://localhost:8080/car/admin/2/auth
+    @DeleteMapping("/admin/{id}/auth")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<SFResponse> deleteCar(@PathVariable Long id) {
+        carService.removeById(id);
+        SFResponse response = new SFResponse(ResponseMessage.CAR_DELETE_RESPONSE_MESSAGE, true);
+        return ResponseEntity.ok(response);
+    }
 
 
 
