@@ -91,7 +91,7 @@ public class CarService {
         List<Car> carList = carRepository.findCarsByImageId(imageFile.getId());
 
         for (Car c : carList) {
-            if (car.getId() != c.getId()) {
+            if (car.getId().longValue() != c.getId().longValue()) {
                 throw new ConflictException(ErrorMessage.IMAGE_USED_MESSAGE);
             }
         }

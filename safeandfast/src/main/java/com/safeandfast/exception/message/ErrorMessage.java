@@ -21,6 +21,16 @@ public class ErrorMessage {
 
     public final static String IMAGE_USED_MESSAGE = "ImageFile is used by other car";
 
+    public final static String RESERVATION_TIME_INCORRECT_MESSAGE = "Reservation pick up time or drop off time not correct";
+
+    public final static String CAR_NOT_AVAILABLE_MESSAGE = "Car is not available for selected time";
+    public final static String RESERVATION_STATUS_CANT_CHANGE_MESSAGE = "Reservation can't be updated for CANCELLED or DONE Reservation";
+    public final static String CAR_USED_BY_RESERVATION_MESSAGE = "Car couldn't be deleted. Car is used by a reservation";
+    public final static String USER_USED_BY_RESERVATION_MESSAGE = "User couldn't be deleted. User is used by a reservation";
+    public final static String EXCEL_REPORT_ERROR_MESSAGE = "Error occured while generating excel report";
+
+
+
 
 
 
