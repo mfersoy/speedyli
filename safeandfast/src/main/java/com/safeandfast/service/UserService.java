@@ -6,7 +6,6 @@ import java.util.Set;
 import java.util.function.Function;
 
 import com.safeandfast.dto.request.AdminUserUpdateRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +17,6 @@ import com.safeandfast.domain.Role;
 import com.safeandfast.domain.User;
 import com.safeandfast.domain.enums.RoleType;
 import com.safeandfast.dto.UserDTO;
-//import com.safeandfast.dto.request.AdminUserUpdateRequest;
 import com.safeandfast.dto.request.RegisterRequest;
 import com.safeandfast.dto.request.UpdatePasswordRequest;
 import com.safeandfast.dto.request.UserUpdateRequest;
@@ -33,7 +31,7 @@ import com.safeandfast.security.SecurityUtils;
 @Service
 public class UserService {
 
-    private UserRepository userRepository;
+    private  UserRepository userRepository;
 
 
     private RoleService roleService;
@@ -46,11 +44,12 @@ public class UserService {
 
     //private ReservationService reservationService;
 
-    public UserService(UserRepository userRepository, RoleService roleService, @Lazy PasswordEncoder passwordEncoder, UserMapper userMapper) {
+    public UserService(UserRepository userRepository, RoleService roleService, @Lazy PasswordEncoder passwordEncoder, UserMapper userMapper, ReservationService reservationService) {
         this.userRepository = userRepository;
         this.roleService = roleService;
         this.passwordEncoder = passwordEncoder;
         this.userMapper = userMapper;
+        this.reservationService = reservationService;
      //   this.reservationService = reservationService;
     }
 
@@ -94,6 +93,7 @@ public class UserService {
         List<UserDTO> userDTOs = userMapper.map(users);
         return userDTOs;
     }
+
 
     public UserDTO getPrincipal() {
         User currentUser = getCurrentUser();
