@@ -28,6 +28,11 @@ public class ResponseMessage {
 
     public final static String RESERVATION_CREATED_RESPONSE_MESSAGE = "Reservation Successfully Created";
 
+    public final static String CAR_AVAILABLE_MESSAGE = "Car Availability calculated";
+    public final static String RESERVATION_UPDATED_RESPONSE_MESSAGE = "Reservation Successfully Updated";
+
+    public final static String RESERVATION_DELETED_RESPONSE_MESSAGE = "Reservation Successfully Deleted";
+
 
 
 }

@@ -31,6 +31,9 @@ public class CarService {
     @Autowired
    private ImageFileService imageFileService;
 
+    @Autowired
+    private ReservationService reservationService;
+
 
 
     public void saveCar(String imageId, CarDTO carDTO){
@@ -117,6 +120,12 @@ public class CarService {
 
         if (car.getBuiltIn()) {
             throw new BadRequestException(ErrorMessage.NOT_PERMITTED_METHOD_MESSAGE);
+        }
+
+       boolean exists = reservationService.existsByCar(car);
+
+        if (exists){
+            throw  new BadRequestException(ErrorMessage.CAR_USED_BY_RESERVATION_MESSAGE);
         }
 
         carRepository.delete(car);

@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.function.Function;
 
 import com.safeandfast.dto.request.AdminUserUpdateRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,11 +35,14 @@ public class UserService {
 
     private UserRepository userRepository;
 
+
     private RoleService roleService;
 
     private PasswordEncoder passwordEncoder;
 
     private UserMapper userMapper;
+
+    private ReservationService reservationService;
 
     //private ReservationService reservationService;
 
@@ -201,8 +205,12 @@ public class UserService {
         if (user.getBuildIn()) {
             throw new BadRequestException(ErrorMessage.NOT_PERMITTED_METHOD_MESSAGE);
         }
+        boolean exists = reservationService.existsByUser(user);
+        if (exists) {
+            throw new BadRequestException(ErrorMessage.USER_USED_BY_RESERVATION_MESSAGE);
+        }
 
-        userRepository.deleteById(id);
+        userRepository.deleteById(user.getId());
     }
 
     public Set<Role> convertRoles(Set<String> pRoles) {
